@@ -1,0 +1,183 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kythrea Comunity</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url('latar.png') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      text-align: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+    header img {
+      max-width: 150px;
+      margin: 15px auto;
+      display: block;
+      animation: float 4s ease-in-out infinite;
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+    .char-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+      padding: 15px;
+      animation: fadeIn 1s ease;
+    }
+    .char-item {
+      background: rgba(0,0,0,0.6);
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.3s, background 0.3s;
+      text-decoration: none;
+      color: white;
+      font-size: 0.9rem;
+    }
+    .char-item:hover {
+      background: rgba(255,255,255,0.2);
+      transform: scale(1.08);
+    }
+    .char-page {
+      display: none;
+      padding: 20px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s ease;
+    }
+    .char-page.active {
+      display: block;
+      background: rgba(0,0,0,0.7);
+      margin: 20px;
+      border-radius: 10px;
+      opacity: 1;
+      transform: translateY(0);
+      animation: fadeInUp 0.6s ease;
+    }
+    .char-page img {
+      max-width: 200px;
+      border-radius: 10px;
+      margin: 15px auto;
+      display: block;
+      animation: zoomIn 0.8s ease;
+    }
+    .back-btn {
+      display: inline-block;
+      margin: 10px;
+      padding: 5px 15px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: background 0.3s;
+    }
+    .back-btn:hover {
+      background: rgba(255,255,255,0.4);
+    }/* Animations */
+@keyframes fadeIn {
+  from {opacity: 0;} to {opacity: 1;}
+}
+@keyframes fadeInUp {
+  from {opacity: 0; transform: translateY(30px);} to {opacity: 1; transform: translateY(0);}
+}
+@keyframes zoomIn {
+  from {transform: scale(0.8);} to {transform: scale(1);}
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Ornaments (PNG moon effect) */
+.ornament {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: url('moon.png') no-repeat center;
+  background-size: contain;
+  animation: fall linear infinite;
+  pointer-events: none;
+}
+@keyframes fall {
+  0% { transform: translateY(-10%); opacity: 1; }
+  100% { transform: translateY(110vh); opacity: 0; }
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="Series Logo">
+    <h1>Kythrea comunity</h1>
+  </header>  <div id="home" class="char-list">
+    <a class="char-item" onclick="openPage(0)">Nevyy</a>
+    <a class="char-item" onclick="openPage(1)">Lif/nazz</a>
+    <a class="char-item" onclick="openPage(2)">Reza</a>
+    <a class="char-item" onclick="openPage(3)">Hyroo</a>
+    <a class="char-item" onclick="openPage(4)">ziete</a>
+    <a class="char-item" onclick="openPage(5)">Adit</a>
+    <a class="char-item" onclick="openPage(6)">Fizz</a>
+    <a class="char-item" onclick="openPage(7)">Pak dedi,pak yoni</a>
+    <a class="char-item" onclick="openPage(8)">Violeca</a>
+    <a class="char-item" onclick="openPage(9)">What about kytrea?</a>
+    </div>  <div id="pages"></div> <audio autoplay loop>
+    <source src="Jir.mp3" type="audio/mpeg">
+  </audio>  <script>
+    const characters = [
+      {name: "Nevyy", img: "nevy.png", info: "Nevy celestnova Seorang anak Sma yang diam diam memiliki kekuatan untuk melindungi dunia moderen ini dari serangan moster atau musuh lainya, terlihat pendiam tapi hebat dan kuat, dia anak dari keluarga terpndang yaitu celestnova family, Nevy bukan anak biasa.... dia pendiri 'kythrea industri' yang menegakkan keadilan dan menyelamatkan 'orang terpilih'. Codename: Sanzkiel."},
+      {name: "Liff/nazz", img: "lif.png", info: "Liff atau sering dipanggil nazz dia adalah saingan Nevy di sekolah mereka sering beradu kegantengan, disisi lain nazz pendiri EDM (Executor Dexus maximus) industri untuk kekuatan pribadi dengan mengambil paksa kekuatan para orang terpilih.. Codename:Beelzebub."},
+      {name: "Reza", img: "re.jpg", info: "Reza adalah Bocah Random yang sering dimanfaatkan oleh EDM. Codename: elementary."},
+      {name: "Hyroo", img: "hyr.png", info: "hyroo Adalah sekutu Nazz di EDM, mereka berniat mengubah dunia. Codename: Sagitarius."},
+      {name: "ziete", img: "z.png", info: "ziete adalah Seorang Mata mata Dari EDM, kemanpuan perang dia juga sangat hebat dan dia pintar dalam mengatur strategi dan penyamaran. Codename: Merkurius."},
+      {name: "Adit", img: "dit.png", info: "Adit adalah seorang informan di kytrhea industri, dia orang yang bijaksana dan pintar untuk strategi. Codename: Darkness."},
+      {name: "fizz", img: "fizz.png", info: "fizz adalah petarung handal di EDM. Codename: Nightshade"},
+      {name: "Pak dedy dan yoni", img: "anjay.png", info: "Pak dedi adalah kepsek di Kythrea high scool sementara pak yoni adalah wali kelas mereka."},
+      {name: "violeca", img: "violeca.png", info: "Violeca adalah asisten pribadi Nevy."},
+      {name: "what about kytrea?", img: "logo.png", info: "Kythrea Menceritakan tentang terjadinya ledakan kekuatan aneh 40 tahun yang lalu, dari situ lahirlah kekuatan yang aneh ke orang orang yang terpilih, tetapi dengan hadirnya kekuatan itu membuat seseorang serakah dan ingin mengambil semua kekuatan itu untuk merubah dunia sesuai keinginan mereka, bagaimana perjalanan Nevyy untuk melawan EDM dan menyelamatkan para orang-orang terpilih itu?."},
+    ];
+
+    const pagesContainer = document.getElementById("pages");
+
+    characters.forEach((char, i) => {
+      const page = document.createElement("div");
+      page.className = "char-page";
+      page.id = `page-${i}`;
+      page.innerHTML = `
+        <h2>${char.name}</h2>
+        <img src="${char.img}" alt="${char.name}">
+        <p>${char.info}</p>
+        <a class=\"back-btn\" onclick=\"goHome()\">Kembali</a>
+      `;
+      pagesContainer.appendChild(page);
+    });
+
+    function openPage(index) {
+      document.getElementById("home").style.display = "none";
+      document.querySelectorAll(".char-page").forEach(p => p.classList.remove("active"));
+      document.getElementById(`page-${index}`).classList.add("active");
+    }
+
+    function goHome() {
+      document.getElementById("home").style.display = "grid";
+      document.querySelectorAll(".char-page").forEach(p => p.classList.remove("active"));
+    }
+
+    // PNG Ornaments (moon effect)
+    for (let i = 0; i < 15; i++) {
+      const ornament = document.createElement("div");
+      ornament.className = "ornament";
+      ornament.style.left = Math.random() * 100 + "vw";
+      ornament.style.animationDuration = (6 + Math.random() * 6) + "s";
+      ornament.style.animationDelay = (Math.random() * 5) + "s";
+      document.body.appendChild(ornament);
+    }
+  </script></body>
+</html>
